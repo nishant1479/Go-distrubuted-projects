@@ -6,9 +6,9 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/nishant147/JobListing/graph/model"
+	"github.com/nishant147/JobListing/database"
 )
 
 var db = database.Connect()
