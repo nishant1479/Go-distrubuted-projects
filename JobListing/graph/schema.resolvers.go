@@ -11,29 +11,31 @@ import (
 	"github.com/nishant147/JobListing/graph/model"
 )
 
+var db = database.Connect()
+
 // CreateJobListing is the resolver for the createJobListing field.
 func (r *mutationResolver) CreateJobListing(ctx context.Context, input model.CreateJobListingInput) (*model.JobListing, error) {
-	panic(fmt.Errorf("not implemented: CreateJobListing - createJobListing"))
+	return db.CreateJobListing(input), nil
 }
 
 // UpdateJobListing is the resolver for the updateJobListing field.
 func (r *mutationResolver) UpdateJobListing(ctx context.Context, id string, input model.UpdateJobListingInput) (*model.JobListing, error) {
-	panic(fmt.Errorf("not implemented: UpdateJobListing - updateJobListing"))
+	return db.UpdateJobListing(id, input), nil
 }
 
 // DeleteJobListing is the resolver for the deleteJobListing field.
 func (r *mutationResolver) DeleteJobListing(ctx context.Context, id string) (*model.DeleteJobResponse, error) {
-	panic(fmt.Errorf("not implemented: DeleteJobListing - deleteJobListing"))
+	return db.DeleteJobListing(id), nil
 }
 
 // Jobs is the resolver for the jobs field.
 func (r *queryResolver) Jobs(ctx context.Context) ([]*model.JobListing, error) {
-	panic(fmt.Errorf("not implemented: Jobs - jobs"))
+	return db.GetJobs(), nil
 }
 
 // Job is the resolver for the job field.
 func (r *queryResolver) Job(ctx context.Context, id string) (*model.JobListing, error) {
-	panic(fmt.Errorf("not implemented: Job - job"))
+	return db.GetJob(id), nil
 }
 
 // Mutation returns MutationResolver implementation.
