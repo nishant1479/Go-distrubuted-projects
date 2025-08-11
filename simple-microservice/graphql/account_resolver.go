@@ -1,5 +1,5 @@
 package main
 
-type queryResolver struct{
+type accountResolver struct{
 	server * Server
 }

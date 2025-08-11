@@ -52,3 +52,7 @@ type ProductInput struct {
 	Description string  `json:"description"`
 	Price       float64 `json:"price"`
 }
+
+type Account struct {
+	Name		string `json:"name"`
+}
