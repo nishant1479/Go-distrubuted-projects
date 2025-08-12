@@ -1,5 +1,7 @@
 syntax= "proto3";
-package pb;
+package account;
+
+option go_package = "pb/";
 
 message Account{
     string id = 1;
@@ -14,6 +16,10 @@ message PostAccountResponse {
     Account account = 1;
 }
 
+message GetAccountRequest {
+    string id = 1;
+}
+
 message GetAccountResponse {
     string id = 1;
 }
@@ -21,7 +27,7 @@ message GetAccountResponse {
 message GetAccountsRequest {
     uint32 skip = 1;
     uint64 take = 2;
-}
+}   
 
 message GetAccountsResponse {
     repeated Account accounts = 1;
@@ -32,5 +38,5 @@ service AccountService {
 
     rpc GetAccount (GetAccountRequest) returns (GetAccountResponse){}
 
-    rpc GetAccounts (GetAccountsRequest) returns (GetAccountsResponse)
+    rpc GetAccounts (GetAccountsRequest) returns (GetAccountsResponse){}
 }
