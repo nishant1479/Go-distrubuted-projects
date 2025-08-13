@@ -1,6 +1,7 @@
 syntax="proto3";
+package catalog;
 
-package pb;
+option go_package = "pb/";
 
 message Product{
     string name = 1;
