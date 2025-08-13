@@ -6,7 +6,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/nishant147/Go-distributed-projects/catalog/pb"
+	"github.com/nishant147/Go-distributed-projects/catalog/pb/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
