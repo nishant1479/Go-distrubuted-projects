@@ -5,8 +5,8 @@ package pb;
 message Product{
     string name = 1;
     string id = 2;
-    string description =3;
     double price = 4;
+    string description =3;
 }
 
 message PostProductRequest{
