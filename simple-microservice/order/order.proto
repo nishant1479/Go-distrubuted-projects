@@ -1,6 +1,8 @@
 syntax  = "proto3";
 package order;
 
+option go_package = "pb/";
+
 message Order{
     message OrderProduct{
         string id = 1;
