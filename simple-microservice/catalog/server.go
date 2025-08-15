@@ -6,12 +6,13 @@ import (
 	"log"
 	"net"
 
-	"github.com/nishant147/Go-distributed-projects/catalog/pb/pb"
+	"github.com/nishant147/Go-distributed-projects/catalog/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
 type grpcServer struct {
+	pb.UnimplementedCatalogServiceServer
 	service Service
 }
 
@@ -21,7 +22,7 @@ func ListenGRPC(s Service, port int) error {
 		return err
 	}
 	serv := grpc.NewServer()
-	pb.RegisterCatalogServiceServer(serv, &grpcServer{s})
+	pb.RegisterCatalogServiceServer(serv, &grpcServer{service: s,})
 	reflection.Register(serv)
 	return serv.Serve(lis)
 }

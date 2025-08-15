@@ -50,7 +50,7 @@ func (r *elasticRepository) PutProduct(ctx context.Context, p Product) error {
 	Type("product").
 	Id(p.ID).
 	BodyJson(productDocument{
-		Name: p,Name,
+		Name: p.Name,
 		Description: p.Description,
 		Price: p.Price,
 	}).
@@ -108,62 +108,62 @@ func (r *elasticRepository) ListProducts(ctx context.Context, skip uint64, take 
 	return products, err
 }
 
-func (r *elasticRepository) ListProductsWithIDs(ctx context.Context, ids []string) ([]Product, error){
+func (r *elasticRepository) ListProductsWithIDs(ctx context.Context, ids []string) ([]Product, error) {
 	items := []*elastic.MultiGetItem{}
-	for _,id : =range ids{
-		items = append{
+	for _, id := range ids {
+		items = append(
 			items,
 			elastic.NewMultiGetItem().
-			Index("catalog").
-			Type("product").
-			Id(id),
-		}
+				Index("catalog").
+				Type("product").
+				Id(id),
+		)
 	}
-	res,err := client.MultiGet().
-	Add(items...).
-	Do(ctxctx)
-	if err !=nil {
+	res, err := r.client.MultiGet().
+		Add(items...).
+		Do(ctx)
+	if err != nil {
 		log.Println(err)
-		return nil,err
+		return nil, err
 	}
-
 	products := []Product{}
-	for _, doc :=range res.Doc{
+	for _, doc := range res.Docs {
 		p := productDocument{}
-		if err = json.Unmarshal(*doc.Source,&p); err == nil {
-			products = append(products,Product{
-				ID: doc.Id,
-				Name: p.Name,
+		if err = json.Unmarshal(*doc.Source, &p); err == nil {
+			products = append(products, Product{
+				ID:          doc.Id,
+				Name:        p.Name,
 				Description: p.Description,
-				Price: p.Price,
+				Price:       p.Price,
 			})
 		}
 	}
 	return products, nil
 }
 
-func (r *elasticRepository) SearchProducts(ctx context.Context, query string, skip uint64, take uint64) ([]Product, error){
-	res,err := r.client.Search().
-			Index("catalog").
-			Type("product").
-			Query(elastic.NewMultiMatchQuery(query, "name","description")).
-			From(int(skip)).Size(int(take)).
-			Do(ctx)
+
+func (r *elasticRepository) SearchProducts(ctx context.Context, query string, skip, take uint64) ([]Product, error) {
+	res, err := r.client.Search().
+		Index("catalog").
+		Type("product").
+		Query(elastic.NewMultiMatchQuery(query, "name", "description")).
+		From(int(skip)).Size(int(take)).
+		Do(ctx)
 	if err != nil {
 		log.Println(err)
-		return nil,err
+		return nil, err
 	}
-	products := []Products{}
-	for _,hit := range res.Hits.Hits{
+	products := []Product{}
+	for _, hit := range res.Hits.Hits {
 		p := productDocument{}
-		if err = json.Unmarshal(*hit.Source, &p); err == nil{
-			products= append(products,Product{
-				ID: doc.Id,
-				Name: p.Name,
+		if err = json.Unmarshal(*hit.Source, &p); err == nil {
+			products = append(products, Product{
+				ID:          hit.Id,
+				Name:        p.Name,
 				Description: p.Description,
-				Price: p.Price,
+				Price:       p.Price,
 			})
 		}
 	}
-	return products, nil
+	return products, err
 }
