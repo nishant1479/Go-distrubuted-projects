@@ -3,7 +3,7 @@ package catalog
 import (
 	"context"
 
-	"github.com/nishant147/Go-distributed-projects/catalog/pb/pb"
+	"github.com/nishant147/Go-distributed-projects/catalog/pb"
 	"google.golang.org/grpc"
 )
 

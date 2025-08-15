@@ -1,13 +1,14 @@
 syntax="proto3";
-package catalog;
 
-option go_package = "pb/";
+package pb;
+
+option go_package = "github.com/nishant1479/Go-distributed-projects/simple-microservice/account/pb";
 
 message Product{
-    string name = 1;
-    string id = 2;
-    double price = 4;
+    string id = 1;
+    string name = 2;
     string description =3;
+    double price = 4;
 }
 
 message PostProductRequest{
@@ -27,21 +28,22 @@ message GetProductResponse{
     Product product =1;
 }
 
-message GetProductsResponse{
-    uint32 take = 1;
+message GetProductsRequest{
+    uint64 take = 1;
     uint64 skip = 2;
     repeated string ids = 3;
+    string query = 4;
 
 }
 
-message GetProductsRequest{
+message GetProductsResponse{
     repeated Product products = 1;
 }
 
 service catalogService {
     rpc PostProduct (PostProductRequest) returns (PostProductResponse){}
 
-    rpc GetProdcut (GetProductRequest) returns (GetProductResponse){}
+    rpc GetProduct (GetProductRequest) returns (GetProductResponse){}
 
     rpc GetProducts (GetProductsRequest) returns (GetProductsResponse){}
 }
