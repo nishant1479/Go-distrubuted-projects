@@ -207,7 +207,7 @@ func (x *GetAccountRequest) GetId() string {
 
 type GetAccountResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Account       *Account               `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -242,16 +242,16 @@ func (*GetAccountResponse) Descriptor() ([]byte, []int) {
 	return file_account_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *GetAccountResponse) GetId() string {
+func (x *GetAccountResponse) GetAccount() *Account {
 	if x != nil {
-		return x.Id
+		return x.Account
 	}
-	return ""
+	return nil
 }
 
 type GetAccountsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Skip          uint32                 `protobuf:"varint,1,opt,name=skip,proto3" json:"skip,omitempty"`
+	Skip          uint64                 `protobuf:"varint,1,opt,name=skip,proto3" json:"skip,omitempty"`
 	Take          uint64                 `protobuf:"varint,2,opt,name=take,proto3" json:"take,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -287,7 +287,7 @@ func (*GetAccountsRequest) Descriptor() ([]byte, []int) {
 	return file_account_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *GetAccountsRequest) GetSkip() uint32 {
+func (x *GetAccountsRequest) GetSkip() uint64 {
 	if x != nil {
 		return x.Skip
 	}
@@ -349,28 +349,28 @@ var File_account_proto protoreflect.FileDescriptor
 
 const file_account_proto_rawDesc = "" +
 	"\n" +
-	"\raccount.proto\x12\aaccount\"-\n" +
+	"\raccount.proto\x12\x02pb\"-\n" +
 	"\aAccount\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\"(\n" +
 	"\x12PostAccountRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\"A\n" +
-	"\x13PostAccountResponse\x12*\n" +
-	"\aaccount\x18\x01 \x01(\v2\x10.account.AccountR\aaccount\"#\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\"<\n" +
+	"\x13PostAccountResponse\x12%\n" +
+	"\aaccount\x18\x01 \x01(\v2\v.pb.AccountR\aaccount\"#\n" +
 	"\x11GetAccountRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"$\n" +
-	"\x12GetAccountResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"<\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\";\n" +
+	"\x12GetAccountResponse\x12%\n" +
+	"\aaccount\x18\x01 \x01(\v2\v.pb.AccountR\aaccount\"<\n" +
 	"\x12GetAccountsRequest\x12\x12\n" +
-	"\x04skip\x18\x01 \x01(\rR\x04skip\x12\x12\n" +
-	"\x04take\x18\x02 \x01(\x04R\x04take\"C\n" +
-	"\x13GetAccountsResponse\x12,\n" +
-	"\baccounts\x18\x01 \x03(\v2\x10.account.AccountR\baccounts2\xf1\x01\n" +
-	"\x0eAccountService\x12J\n" +
-	"\vPostAccount\x12\x1b.account.PostAccountRequest\x1a\x1c.account.PostAccountResponse\"\x00\x12G\n" +
+	"\x04skip\x18\x01 \x01(\x04R\x04skip\x12\x12\n" +
+	"\x04take\x18\x02 \x01(\x04R\x04take\">\n" +
+	"\x13GetAccountsResponse\x12'\n" +
+	"\baccounts\x18\x01 \x03(\v2\v.pb.AccountR\baccounts2\xd3\x01\n" +
+	"\x0eAccountService\x12@\n" +
+	"\vPostAccount\x12\x16.pb.PostAccountRequest\x1a\x17.pb.PostAccountResponse\"\x00\x12=\n" +
 	"\n" +
-	"GetAccount\x12\x1a.account.GetAccountRequest\x1a\x1b.account.GetAccountResponse\"\x00\x12J\n" +
-	"\vGetAccounts\x12\x1b.account.GetAccountsRequest\x1a\x1c.account.GetAccountsResponse\"\x00B\x05Z\x03pb/b\x06proto3"
+	"GetAccount\x12\x15.pb.GetAccountRequest\x1a\x16.pb.GetAccountResponse\"\x00\x12@\n" +
+	"\vGetAccounts\x12\x16.pb.GetAccountsRequest\x1a\x17.pb.GetAccountsResponse\"\x00BOZMgithub.com/nishant1479/Go-distributed-projects/simple-microservice/account/pbb\x06proto3"
 
 var (
 	file_account_proto_rawDescOnce sync.Once
@@ -386,28 +386,29 @@ func file_account_proto_rawDescGZIP() []byte {
 
 var file_account_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_account_proto_goTypes = []any{
-	(*Account)(nil),             // 0: account.Account
-	(*PostAccountRequest)(nil),  // 1: account.PostAccountRequest
-	(*PostAccountResponse)(nil), // 2: account.PostAccountResponse
-	(*GetAccountRequest)(nil),   // 3: account.GetAccountRequest
-	(*GetAccountResponse)(nil),  // 4: account.GetAccountResponse
-	(*GetAccountsRequest)(nil),  // 5: account.GetAccountsRequest
-	(*GetAccountsResponse)(nil), // 6: account.GetAccountsResponse
+	(*Account)(nil),             // 0: pb.Account
+	(*PostAccountRequest)(nil),  // 1: pb.PostAccountRequest
+	(*PostAccountResponse)(nil), // 2: pb.PostAccountResponse
+	(*GetAccountRequest)(nil),   // 3: pb.GetAccountRequest
+	(*GetAccountResponse)(nil),  // 4: pb.GetAccountResponse
+	(*GetAccountsRequest)(nil),  // 5: pb.GetAccountsRequest
+	(*GetAccountsResponse)(nil), // 6: pb.GetAccountsResponse
 }
 var file_account_proto_depIdxs = []int32{
-	0, // 0: account.PostAccountResponse.account:type_name -> account.Account
-	0, // 1: account.GetAccountsResponse.accounts:type_name -> account.Account
-	1, // 2: account.AccountService.PostAccount:input_type -> account.PostAccountRequest
-	3, // 3: account.AccountService.GetAccount:input_type -> account.GetAccountRequest
-	5, // 4: account.AccountService.GetAccounts:input_type -> account.GetAccountsRequest
-	2, // 5: account.AccountService.PostAccount:output_type -> account.PostAccountResponse
-	4, // 6: account.AccountService.GetAccount:output_type -> account.GetAccountResponse
-	6, // 7: account.AccountService.GetAccounts:output_type -> account.GetAccountsResponse
-	5, // [5:8] is the sub-list for method output_type
-	2, // [2:5] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	0, // 0: pb.PostAccountResponse.account:type_name -> pb.Account
+	0, // 1: pb.GetAccountResponse.account:type_name -> pb.Account
+	0, // 2: pb.GetAccountsResponse.accounts:type_name -> pb.Account
+	1, // 3: pb.AccountService.PostAccount:input_type -> pb.PostAccountRequest
+	3, // 4: pb.AccountService.GetAccount:input_type -> pb.GetAccountRequest
+	5, // 5: pb.AccountService.GetAccounts:input_type -> pb.GetAccountsRequest
+	2, // 6: pb.AccountService.PostAccount:output_type -> pb.PostAccountResponse
+	4, // 7: pb.AccountService.GetAccount:output_type -> pb.GetAccountResponse
+	6, // 8: pb.AccountService.GetAccounts:output_type -> pb.GetAccountsResponse
+	6, // [6:9] is the sub-list for method output_type
+	3, // [3:6] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_account_proto_init() }

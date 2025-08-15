@@ -19,9 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AccountService_PostAccount_FullMethodName = "/account.AccountService/PostAccount"
-	AccountService_GetAccount_FullMethodName  = "/account.AccountService/GetAccount"
-	AccountService_GetAccounts_FullMethodName = "/account.AccountService/GetAccounts"
+	AccountService_PostAccount_FullMethodName = "/pb.AccountService/PostAccount"
+	AccountService_GetAccount_FullMethodName  = "/pb.AccountService/GetAccount"
+	AccountService_GetAccounts_FullMethodName = "/pb.AccountService/GetAccounts"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -176,7 +176,7 @@ func _AccountService_GetAccounts_Handler(srv interface{}, ctx context.Context, d
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AccountService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "account.AccountService",
+	ServiceName: "pb.AccountService",
 	HandlerType: (*AccountServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

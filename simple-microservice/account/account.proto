@@ -1,9 +1,10 @@
-syntax= "proto3";
-package account;
+syntax = "proto3";
 
-option go_package = "pb/";
+package pb;
 
-message Account{
+option go_package = "github.com/nishant1479/Go-distributed-projects/simple-microservice/account/pb";
+
+message Account {
     string id = 1;
     string name = 2;
 }
@@ -21,22 +22,23 @@ message GetAccountRequest {
 }
 
 message GetAccountResponse {
-    string id = 1;
+    Account account = 1;
 }
 
 message GetAccountsRequest {
-    uint32 skip = 1;
+    uint64 skip = 1;
     uint64 take = 2;
-}   
+}
 
 message GetAccountsResponse {
     repeated Account accounts = 1;
 }
 
-service AccountService { 
-    rpc PostAccount (PostAccountRequest) returns (PostAccountResponse){}
-
-    rpc GetAccount (GetAccountRequest) returns (GetAccountResponse){}
-
-    rpc GetAccounts (GetAccountsRequest) returns (GetAccountsResponse){}
+service AccountService {
+    rpc PostAccount (PostAccountRequest) returns (PostAccountResponse) {
+    }
+    rpc GetAccount (GetAccountRequest) returns (GetAccountResponse) {
+    }
+    rpc GetAccounts (GetAccountsRequest) returns (GetAccountsResponse) {
+    }
 }

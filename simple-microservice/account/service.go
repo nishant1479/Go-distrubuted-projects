@@ -7,9 +7,9 @@ import (
 )
 
 type Service interface {
-	PostAccount(ctx context.Context, name string) *Account
-	GetAccount(ctx context.Context, id string) *Account
-	GetAccounts(ctx context.Context, skip uint64, take uint64) []Account
+	PostAccount(ctx context.Context, name string) (*Account,error)
+	GetAccount(ctx context.Context, id string) (*Account,error)
+	GetAccounts(ctx context.Context, skip uint64, take uint64) ([]Account,error)
 }
 
 type Account struct {
@@ -21,9 +21,9 @@ type accountService struct {
 	repository Repository
 }
 
-func NewService(r Repository) Service {
-	return &accountService{r}
-}
+// func NewService(r Repository) Service {
+// 	// return &accountService{r}
+// }
 
 func (s *accountService) PostAccount(ctx context.Context,name string)(*Account,error){
 	a := &Account{
