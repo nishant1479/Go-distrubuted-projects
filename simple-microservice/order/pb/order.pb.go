@@ -195,7 +195,7 @@ func (x *PostOrderResponse) GetOrder() *Order {
 
 type GetOrderRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Order         *Order                 `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -230,11 +230,11 @@ func (*GetOrderRequest) Descriptor() ([]byte, []int) {
 	return file_order_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetOrderRequest) GetOrder() *Order {
+func (x *GetOrderRequest) GetId() string {
 	if x != nil {
-		return x.Order
+		return x.Id
 	}
-	return nil
+	return ""
 }
 
 type GetOrderResponse struct {
@@ -327,7 +327,7 @@ func (x *GetOrdersForAccountRequest) GetAccountId() string {
 
 type GetOrdersForAccountResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Order         []*Order               `protobuf:"bytes,1,rep,name=order,proto3" json:"order,omitempty"`
+	Orders        []*Order               `protobuf:"bytes,1,rep,name=orders,proto3" json:"orders,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -362,9 +362,9 @@ func (*GetOrdersForAccountResponse) Descriptor() ([]byte, []int) {
 	return file_order_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *GetOrdersForAccountResponse) GetOrder() []*Order {
+func (x *GetOrdersForAccountResponse) GetOrders() []*Order {
 	if x != nil {
-		return x.Order
+		return x.Orders
 	}
 	return nil
 }
@@ -523,15 +523,15 @@ const file_order_proto_rawDesc = "" +
 	"\tproductId\x18\x02 \x01(\tR\tproductId\x12\x1a\n" +
 	"\bquantity\x18\x03 \x01(\rR\bquantity\"7\n" +
 	"\x11PostOrderResponse\x12\"\n" +
-	"\x05order\x18\x01 \x01(\v2\f.order.OrderR\x05order\"5\n" +
-	"\x0fGetOrderRequest\x12\"\n" +
-	"\x05order\x18\x01 \x01(\v2\f.order.OrderR\x05order\"6\n" +
+	"\x05order\x18\x01 \x01(\v2\f.order.OrderR\x05order\"!\n" +
+	"\x0fGetOrderRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"6\n" +
 	"\x10GetOrderResponse\x12\"\n" +
 	"\x05order\x18\x01 \x01(\v2\f.order.OrderR\x05order\":\n" +
 	"\x1aGetOrdersForAccountRequest\x12\x1c\n" +
-	"\taccountId\x18\x01 \x01(\tR\taccountId\"A\n" +
-	"\x1bGetOrdersForAccountResponse\x12\"\n" +
-	"\x05order\x18\x01 \x03(\v2\f.order.OrderR\x05order2\xb0\x01\n" +
+	"\taccountId\x18\x01 \x01(\tR\taccountId\"C\n" +
+	"\x1bGetOrdersForAccountResponse\x12$\n" +
+	"\x06orders\x18\x01 \x03(\v2\f.order.OrderR\x06orders2\xb0\x01\n" +
 	"\fOrderService\x12@\n" +
 	"\tPostOrder\x12\x17.order.PostOrderRequest\x1a\x18.order.PostOrderResponse\"\x00\x12^\n" +
 	"\x13GetOrdersForAccount\x12!.order.GetOrdersForAccountRequest\x1a\".order.GetOrdersForAccountResponse\"\x00B\x05Z\x03pb/b\x06proto3"
@@ -564,18 +564,17 @@ var file_order_proto_depIdxs = []int32{
 	7, // 0: order.Order.products:type_name -> order.Order.OrderProduct
 	8, // 1: order.PostOrderRequest.products:type_name -> order.PostOrderRequest.OrderProduct
 	0, // 2: order.PostOrderResponse.order:type_name -> order.Order
-	0, // 3: order.GetOrderRequest.order:type_name -> order.Order
-	0, // 4: order.GetOrderResponse.order:type_name -> order.Order
-	0, // 5: order.GetOrdersForAccountResponse.order:type_name -> order.Order
-	1, // 6: order.OrderService.PostOrder:input_type -> order.PostOrderRequest
-	5, // 7: order.OrderService.GetOrdersForAccount:input_type -> order.GetOrdersForAccountRequest
-	2, // 8: order.OrderService.PostOrder:output_type -> order.PostOrderResponse
-	6, // 9: order.OrderService.GetOrdersForAccount:output_type -> order.GetOrdersForAccountResponse
-	8, // [8:10] is the sub-list for method output_type
-	6, // [6:8] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	0, // 3: order.GetOrderResponse.order:type_name -> order.Order
+	0, // 4: order.GetOrdersForAccountResponse.orders:type_name -> order.Order
+	1, // 5: order.OrderService.PostOrder:input_type -> order.PostOrderRequest
+	5, // 6: order.OrderService.GetOrdersForAccount:input_type -> order.GetOrdersForAccountRequest
+	2, // 7: order.OrderService.PostOrder:output_type -> order.PostOrderResponse
+	6, // 8: order.OrderService.GetOrdersForAccount:output_type -> order.GetOrdersForAccountResponse
+	7, // [7:9] is the sub-list for method output_type
+	5, // [5:7] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_order_proto_init() }

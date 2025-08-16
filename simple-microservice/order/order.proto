@@ -33,7 +33,7 @@ message PostOrderResponse{
 }
 
 message GetOrderRequest{
-    Order order = 1;
+    string id = 1;
 }
 
 message GetOrderResponse{
@@ -44,7 +44,7 @@ message GetOrdersForAccountRequest{
 }
 
 message GetOrdersForAccountResponse{
-    repeated Order order =1;
+    repeated Order orders =1;
 }
 
 service OrderService{

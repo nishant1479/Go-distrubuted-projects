@@ -1,9 +1,14 @@
 package order
 
-import "github.com/lib/pq"
+import (
+	"context"
+	"database/sql"
+
+	"github.com/lib/pq"
+)
 
 type Repository interface {
-	close()
+	Close() error
 	PutOrder(ctx context.Context, o Order) error
 	GetOrdersForAccount(ctx context.Context, accountID string) ([]Order, error)
 }
@@ -40,21 +45,21 @@ func (r *postgresRepository) PutOrder(ctx context.Context, o Order) (err error) 
 		}
 		err = tx.Commit()
 	}()
-	_, err = tx.ExecContext{
+	_, err = tx.ExecContext(
 		ctx,
 		"INSERT INTO orders(id,created_at,account_id,total_price)",
 		o.ID,
 		o.CreatedAt,
 		o.AccountID,
 		o.TotalPrice,
-	}
+	)
 	if err != nil {
 		return
 	}
 
-	stmt,_ := tx.PrepreContext(ctx, pq.CopyIn("order_products","order_id"))
+	stmt,_ := tx.PrepareContext(ctx, pq.CopyIn("order_products","order_id", "product_id", "quantity"))
 		for _,p:= range o.Products{
-			_,err = stmt.ExecContext(ctx,o.ID,p.ID,p.quantity)
+			_,err = stmt.ExecContext(ctx,o.ID,p.ID,p.Quantity)
 			if err !=nil{
 				return
 			}
@@ -68,7 +73,7 @@ func (r *postgresRepository) PutOrder(ctx context.Context, o Order) (err error) 
 }
 
 func (r *postgresRepository) GetOrdersForAccount(ctx context.Context, accountID string) ([]Order, error){
-	row, err := r.db.QueryContext(
+	rows, err := r.db.QueryContext(
 		ctx,
 		`SELECT
 		o.id,
@@ -87,6 +92,7 @@ func (r *postgresRepository) GetOrdersForAccount(ctx context.Context, accountID 
 	}
 	defer rows.Close()
 	orders := []Order{}
+	order := &Order{}
 	lastOrder := &Order{}
 	orderedProduct := &OrderedProduct{}
 	products := []OrderedProduct{}
@@ -103,10 +109,10 @@ func (r *postgresRepository) GetOrdersForAccount(ctx context.Context, accountID 
 		); err != nil {
 			return nil,err
 		}
-		if lastOrder.ID !=  "" && lastOrder.ID != orderID{
+		if lastOrder.ID !=  "" && lastOrder.ID != order.ID{
 			newOrder := Order{
 				ID:			lastOrder.ID,
-				Account:	lastOrder.AccountID,
+				AccountID:	lastOrder.AccountID,
 				CreatedAt:	lastOrder.CreatedAt,
 				TotalPrice:	lastOrder.TotalPrice,
 				Products:	lastOrder.Products,
@@ -119,7 +125,7 @@ func (r *postgresRepository) GetOrdersForAccount(ctx context.Context, accountID 
 			Quantity: orderedProduct.Quantity,
 		})
 
-		*lastOrder = *order 
+		*lastOrder = *order
 	}
 
 	if lastOrder != nil {

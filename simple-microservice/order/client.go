@@ -27,11 +27,11 @@ func (c *Client) Close() {
 	c.conn.Close()
 }
 
-func (c *Client) PostOrder(
+func (c *Client) PostOrder(	
 	ctx context.Context,
 	accountID string,
 	products []OrderedProduct,
-) (*Order, error) {
+	) (*Order, error) {
 	protoProducts := []*pb.PostOrderRequest_OrderProduct{}
 	for _, p := range products {
 		protoProducts = append(protoProducts, &pb.PostOrderRequest_OrderProduct{
@@ -73,7 +73,7 @@ func (c *Client) GetOrdersForAccount(ctx context.Context, accountID string) ([]O
 	}
 
 	orders := []Order{}
-	for _, orderProto := range r.Order {
+	for _, orderProto := range r.Orders {
 		newOrder := Order{
 			ID:         orderProto.Id,
 			TotalPrice: orderProto.TotalPrice,
