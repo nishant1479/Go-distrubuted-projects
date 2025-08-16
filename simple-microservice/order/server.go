@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"reflect"
+	"google.golang.org/grpc/reflection"
 
 	"github.com/eapache/go-resiliency/breaker"
 	"github.com/nishant147/Go-distributed-projects/account"
@@ -20,7 +20,7 @@ type grpcServer struct {
 }
 
 func ListenGRPC(s Service,accountURL,catalogURL string,port int)error {
-	accountClient,err := accountURL.NewClient(AccountURL)
+	accountClient,err := accountURL.NewClient(accountURL)
 	if err != nil{
 		return err
 	}
@@ -63,33 +63,33 @@ func(s *grpcServer) PostOrder(ctx context.Context,r *pb.PostOrderRequest)(*pb.Po
 	products := []OrderedProduct{}
 	for _,p := range orderedProduct{
 		product := OrderedProduct{
-			ID:			p.ID,
-			Quantity: 0,
-			Price: p.Price,
-			Name: p.Name,
-			Description: p.Description,
+			ID:				p.ID,
+			Quantity:		0,
+			Price: 			p.Price,
+			Name: 			p.Name,
+			Description: 	p.Description,
 		}
-		for _,rp := range r.Products{
-			if rp.ProductId = p.ID{
+		for _, rp := range r.Products{
+			if rp.ProductId == p.ID{
 				product.Quantity = rp.Quantity
 				break
 			}
 		}
 		if product.Quantity != 0{
-			Products = append(products,product)
+			products = append(products,product)
 		}
 	}
-	order, err := s.service.PostOrder((ctx, r.AccountId,products))
+	order, err := s.service.PostOrder(ctx, r.AccountId,products)
 	if err != nil{
 		log.Println("error posting order:",err)
 		return nil,errors.New("could not post order")
 	}
 
 	orderProto := &pb.Order{
-		Id: order.Id,
-		AccountId: order.AccountId,
+		Id: order.ID,
+		AccountId: order.AccountID,
 		TotalPrice: order.TotalPrice,
-		Products: []*pb.Order_OrderProduct{}
+		Products: []*pb.Order_OrderProduct{},
 	}
 	orderProto.CreatedAt, _ := order.CreatedAt.MarshalBinary()
 	for _,p := range order.Products{
@@ -129,17 +129,17 @@ func(s *grpcServer) GetOrdersForAccount(ctx context.Context,r *pb.GetOrdersForAc
 		return nil,err
 	}
 	orders := []*pb.Order{}
-	for _m o := range accountOrders{
+	for _, o := range accountOrders{
 		op := &pb.Order{
 			AccountId: o.AccountID,
 			ID: o.ID,
 			TotalPrice: o.TotalPrice,
 			Products: []*pb.order_OrderProduct{},
 		}
-		op,CreatedAt,_ = O.createdAt.MarshalBinary()
+		op.CreatedAt,_ = o.CreatedAt.MarshalBinary()
 
 		for _, product := range o.Products{
-			for_,p:= range products{
+			for _, p := range products{
 				if p.ID == product.ID{
 					product.Name = p.Name
 					product.Description = p.Description
@@ -157,5 +157,5 @@ func(s *grpcServer) GetOrdersForAccount(ctx context.Context,r *pb.GetOrdersForAc
 		}
 		orders = append(orders,op)
 	}
-	return &pb.GetOrdersForAccountResponse{Orders: order},nil
+	return &pb.GetOrdersForAccountResponse{Orders: orders},nil
 }

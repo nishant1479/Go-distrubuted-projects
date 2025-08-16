@@ -57,6 +57,6 @@ func (s orderService) PostOrder(
 }
 
 
-func (s orderService) GetOrdersForAccount(ctx context.Context, account string)([]Order, error){
+func (s orderService) GetOrdersForAccount(ctx context.Context, accountId string)([]Order, error){
 	return  s.repository.GetOrdersForAccount(ctx,accountId)
 }
