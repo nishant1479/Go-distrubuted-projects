@@ -29,8 +29,8 @@ func NewPostgresRepository(url string) (Repository, error) {
 	return &postgresRepository{db}, nil
 }
 
-func (r *postgresRepository) Close() {
-	r.db.Close()
+func (r *postgresRepository) Close() error{
+	return r.db.Close()
 }
 
 func (r *postgresRepository) PutOrder(ctx context.Context, o Order) (err error) {
@@ -76,7 +76,7 @@ func (r *postgresRepository) GetOrdersForAccount(ctx context.Context, accountID 
 	rows, err := r.db.QueryContext(
 		ctx,
 		`SELECT
-		o.id,
+      o.id,
       o.created_at,
       o.account_id,
       o.total_price::money::numeric::float8,
@@ -85,7 +85,7 @@ func (r *postgresRepository) GetOrdersForAccount(ctx context.Context, accountID 
     FROM orders o JOIN order_products op ON (o.id = op.order_id)
     WHERE o.account_id = $1
     ORDER BY o.id`,
-	accountID,
+		accountID,
 	)
 	if err != nil {
 		return nil,err

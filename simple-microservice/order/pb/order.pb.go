@@ -99,7 +99,7 @@ func (x *Order) GetProducts() []*Order_OrderProduct {
 
 type PostOrderRequest struct {
 	state         protoimpl.MessageState           `protogen:"open.v1"`
-	ProductId     string                           `protobuf:"bytes,2,opt,name=productId,proto3" json:"productId,omitempty"`
+	AccountId     string                           `protobuf:"bytes,2,opt,name=accountId,proto3" json:"accountId,omitempty"`
 	Products      []*PostOrderRequest_OrderProduct `protobuf:"bytes,4,rep,name=products,proto3" json:"products,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -135,9 +135,9 @@ func (*PostOrderRequest) Descriptor() ([]byte, []int) {
 	return file_order_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *PostOrderRequest) GetProductId() string {
+func (x *PostOrderRequest) GetAccountId() string {
 	if x != nil {
-		return x.ProductId
+		return x.AccountId
 	}
 	return ""
 }
@@ -517,7 +517,7 @@ const file_order_proto_rawDesc = "" +
 	"\x05price\x18\x04 \x01(\x01R\x05price\x12\x1a\n" +
 	"\bquantity\x18\x05 \x01(\rR\bquantity\"\xbc\x01\n" +
 	"\x10PostOrderRequest\x12\x1c\n" +
-	"\tproductId\x18\x02 \x01(\tR\tproductId\x12@\n" +
+	"\taccountId\x18\x02 \x01(\tR\taccountId\x12@\n" +
 	"\bproducts\x18\x04 \x03(\v2$.order.PostOrderRequest.OrderProductR\bproducts\x1aH\n" +
 	"\fOrderProduct\x12\x1c\n" +
 	"\tproductId\x18\x02 \x01(\tR\tproductId\x12\x1a\n" +

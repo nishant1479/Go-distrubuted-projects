@@ -4,11 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
+	"net"
+
 	"github.com/nishant147/Go-distributed-projects/order/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"log"
-	"net"
 
 	"github.com/nishant147/Go-distributed-projects/account"
 	"github.com/nishant147/Go-distributed-projects/catalog"
@@ -92,7 +93,11 @@ func (s *grpcServer) PostOrder(ctx context.Context, r *pb.PostOrderRequest) (*pb
 		TotalPrice: order.TotalPrice,
 		Products:   []*pb.Order_OrderProduct{},
 	}
-	orderProto.CreatedAt, _ := order.CreatedAt.MarshalBinary()
+	orderProto.CreatedAt, err = order.CreatedAt.MarshalBinary() // have changed it but the error still may exist
+	if err != nil {
+    log.Printf("failed to marshal timestamp: %v", err)
+    return nil, errors.New("failed to process order timestamp")
+}
 	for _, p := range order.Products {
 		orderProto.Products = append(orderProto.Products, &pb.Order_OrderProduct{
 			Id:          p.ID,
