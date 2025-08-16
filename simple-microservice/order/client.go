@@ -3,6 +3,7 @@ package order
 import (
 	"context"
 	"log"
+	"github.com/nishant147/Go-distributed-projects/order/pb"
 	"time"
 
 	"google.golang.org/grpc"
@@ -72,7 +73,7 @@ func (c *Client) GetOrdersForAccount(ctx context.Context, accountID string) ([]O
 	}
 
 	orders := []Order{}
-	for _, orderProto := range r.Orders {
+	for _, orderProto := range r.Order {
 		newOrder := Order{
 			ID:         orderProto.Id,
 			TotalPrice: orderProto.TotalPrice,

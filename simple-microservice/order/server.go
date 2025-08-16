@@ -7,6 +7,7 @@ import (
 	"log"
 	"net"
 	"google.golang.org/grpc/reflection"
+	"github.com/nishant147/Go-distributed-projects/order/pb"
 
 	"github.com/eapache/go-resiliency/breaker"
 	"github.com/nishant147/Go-distributed-projects/account"
@@ -48,7 +49,7 @@ func ListenGRPC(s Service,accountURL,catalogURL string,port int)error {
 }
 
 func(s *grpcServer) PostOrder(ctx context.Context,r *pb.PostOrderRequest)(*pb.PostOrderResponse,error){
-	_,err := s.accountClient.GetAccount(ctx, r.AccountId)
+	_,err := s.accountClient.GetAccount(ctx, r.accountId)
 	if err !=nil{
 		log.Println("Error getting account:", err)
 		return nil,errors.New("account not found")
@@ -79,7 +80,7 @@ func(s *grpcServer) PostOrder(ctx context.Context,r *pb.PostOrderRequest)(*pb.Po
 			products = append(products,product)
 		}
 	}
-	order, err := s.service.PostOrder(ctx, r.AccountId,products)
+	order, err := s.service.PostOrder(ctx, r.accountId,products)
 	if err != nil{
 		log.Println("error posting order:",err)
 		return nil,errors.New("could not post order")
@@ -94,7 +95,7 @@ func(s *grpcServer) PostOrder(ctx context.Context,r *pb.PostOrderRequest)(*pb.Po
 	orderProto.CreatedAt, _ := order.CreatedAt.MarshalBinary()
 	for _,p := range order.Products{
 		orderProto.Products = append(orderProto.Products, &pb.Order_OrderProduct{
-			Id:		p.Id,
+			Id:		p.ID,
 			Name:	p.Name,
 			Description: p.Description,
 			Price: p.Price,

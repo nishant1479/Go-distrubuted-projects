@@ -90,11 +90,11 @@ func (r *postgresRepository) GetOrdersForAccount(ctx context.Context, accountID 
 	lastOrder := &Order{}
 	orderedProduct := &OrderedProduct{}
 	products := []OrderedProduct{}
-	}
+	
 
 	for rows.Next() {
 		if err = rows.Scan(
-			&order.ID
+			&order.ID,
 			&order.CreatedAt,
 			&order.AccountID,
 			&order.TotalPrice,
