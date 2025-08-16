@@ -22,6 +22,7 @@ require (
 
 require (
 	github.com/agnivade/levenshtein v1.2.1 // indirect
+	github.com/eapache/go-resiliency v1.7.0
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/lib/pq v1.10.9
