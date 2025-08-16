@@ -18,14 +18,14 @@ type Product struct{
 	ID				string		`json:"id"`
 	Name			string		`json:"name"`
 	Description		string		`json:"description"`
-	Price			string		`json:"price"`
+	Price			float64		`json:"price"`
 }
 
 type catalogService struct{
-	repository Respository
+	repository Repository
 }
 
-func NewService(r Respository) Service{
+func NewService(r Repository) Service{
 	return &catalogService{r}
 }
 

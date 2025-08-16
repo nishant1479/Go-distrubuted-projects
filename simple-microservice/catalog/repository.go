@@ -12,7 +12,7 @@ import (
 var (
 	ErrNotFound = errors.New("Entity not found")
 )
-type Respository interface {
+type Repository interface {
 	Close()
 	PutProduct(ctx context.Context, p Product) error
 	GetProductByID(ctx context.Context, id string) (*Product, error)
@@ -28,10 +28,10 @@ type elasticRepository struct {
 type productDocument struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
-	Price       string `json:"price"`
+	Price       float64 `json:"price"`
 }
 
-func NewElasticRepository(url string) (Respository, error) {
+func NewElasticRepository(url string) (Repository, error) {
 	client,err := elastic.NewClient(
 		elastic.SetURL(url),
 		elastic.SetSniff(false),
@@ -50,9 +50,9 @@ func (r *elasticRepository) PutProduct(ctx context.Context, p Product) error {
 	Type("product").
 	Id(p.ID).
 	BodyJson(productDocument{
-		Name: p.Name,
-		Description: p.Description,
-		Price: p.Price,
+		Name: 			p.Name,
+		Description: 	p.Description,
+		Price:			p.Price,
 	}).
 	Do(ctx)
 	return err

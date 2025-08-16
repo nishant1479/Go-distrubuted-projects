@@ -5,6 +5,7 @@ import (
 
 	"github.com/nishant147/Go-distributed-projects/catalog/pb"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 type Client struct {
@@ -13,12 +14,19 @@ type Client struct {
 }
 
 func NewClient(url string) (*Client, error) {
-	conn, err := grpc.Dial(url, grpc.WithInsecure())
-	if err != nil {
-		return nil, err
-	}
-	c := pb.NewCatalogServiceClient(conn)
-	return &Client{conn, c}, nil
+    conn, err := grpc.Dial(
+        url,
+        grpc.WithTransportCredentials(insecure.NewCredentials()),
+    )
+    if err != nil {
+        return nil, err
+    }
+    
+    client := pb.NewCatalogServiceClient(conn)
+    return &Client{
+        conn:    conn,
+        service: client,
+	},nil
 }
 
 func (c *Client) Close() {
@@ -77,13 +85,14 @@ func (c *Client) GetProducts(ctx context.Context, skip uint64, take uint64, ids 
 	if err != nil {
 		return nil, err
 	}
+	
 	products := []Product{}
 	for _, p := range r.Products {
 		products = append(products, Product{
-			ID:          p.Id,
-			Name:        p.Name,
-			Description: p.Description,
-			Price:       p.Price,
+		ID:          p.Id,
+		Name:        p.Name,
+		Description: p.Description,
+		Price:       p.Price,
 		})
 	}
 	return products, nil
