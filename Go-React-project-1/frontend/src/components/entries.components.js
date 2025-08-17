@@ -227,10 +227,12 @@ const Entries = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Group>
-                        <Form.Label>New ingredients</Form.Label>
+                        <Form.Label>New ingredients *</Form.Label>
                         <Form.Control 
                             value={newIngredientName}
                             onChange={(event) => setNewIngredientName(event.target.value)}
+                            required
+                            placeholder="Enter new ingredients"
                         />
                     </Form.Group>
                     <div className="mt-3">
