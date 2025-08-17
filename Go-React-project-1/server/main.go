@@ -1,7 +1,9 @@
 package main
 
 import (
+	"nishant/routes"
 	"os"
+
 	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
