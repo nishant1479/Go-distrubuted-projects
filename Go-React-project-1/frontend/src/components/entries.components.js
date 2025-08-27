@@ -154,7 +154,7 @@ const Entries = () => {
                 {error && <Alert variant="danger" onClose={() => setError("")} dismissible>{error}</Alert>}
                 <div className="d-flex justify-content-between align-items-center mb-3">
                     <Button onClick={() => setAddNewEntry(true)} disabled={loading} variant="primary">
-                        {loading ? 'Loading...' : 'Track today\'s calories'}
+                        {loading ? 'Loading...' : "Track today's calories"}
                     </Button>
                     {loading && <div className="spinner-border spinner-border-sm" role="status">
                         <span className="visually-hidden">Loading...</span>
